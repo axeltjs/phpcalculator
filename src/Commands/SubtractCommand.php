@@ -11,7 +11,7 @@ class SubtractCommand extends Command
     /**
      * @var string
      */
-    protected $signature = "subtract {numbers* : The numbers to be %s}";
+    protected $signature = "subtract {numbers* : The numbers to be substract}";
 
     /**
      * @var string
