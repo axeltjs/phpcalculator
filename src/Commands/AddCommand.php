@@ -9,23 +9,16 @@ class AddCommand extends Command
     /**
      * @var string
      */
-    protected $signature;
+    protected $signature = "add numbers {numbers* : The numbers to be %s}";
 
     /**
      * @var string
      */
-    protected $description;
+    protected $description = "Add all given Numbers";
 
     public function __construct()
     {
-        $commandVerb = $this->getCommandVerb();
-
-        $this->signature = sprintf(
-            '%s {numbers* : The numbers to be %s}',
-            $commandVerb,
-            $this->getCommandPassiveVerb()
-        );
-        $this->description = sprintf('%s all given Numbers', ucfirst($commandVerb));
+        parent::__construct();
     }
 
     protected function getCommandVerb(): string
