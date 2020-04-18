@@ -11,7 +11,7 @@ class AddCommand extends Command
     /**
      * @var string
      */
-    protected $signature = "add {numbers* : The numbers to be %s}";
+    protected $signature = "add {numbers* : The numbers to be add}";
 
     /**
      * @var string
