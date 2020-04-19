@@ -28,7 +28,7 @@ class CommandHistory implements CommandHistoryManagerInterface
             }
         } catch (PDOException $e) {
             // handle the exception here
-            echo $e;
+            throw $e;
         }
     }
 
