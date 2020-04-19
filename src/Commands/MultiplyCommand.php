@@ -11,7 +11,7 @@ class MultiplyCommand extends Command
     /**
      * @var string
      */
-    protected $signature = "multiply {numbers* : The numbers to be %s}";
+    protected $signature = "multiply {numbers* : The numbers to be multiply}";
 
     /**
      * @var string

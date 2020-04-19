@@ -4,19 +4,19 @@ namespace Jakmall\Recruitment\Calculator\Commands;
 
 use Illuminate\Console\Command;
 
-class AddCommand extends Command
+class DivideCommand extends Command
 {
     use \Jakmall\Recruitment\Calculator\Traits\CalculatorTrait;
+    
+    /**
+     * @var string
+     */
+    protected $signature = "divide {numbers* : The numbers to be %s}";
 
     /**
      * @var string
      */
-    protected $signature = "add {numbers* : The numbers to be add}";
-
-    /**
-     * @var string
-     */
-    protected $description = "Add all given Numbers";
+    protected $description = "Divide all given Numbers";
 
     public function __construct()
     {
@@ -35,7 +35,7 @@ class AddCommand extends Command
 
     protected function getOperator(): String 
     {
-        return '+';
+        return '/';
     }
 
     protected function getInput(): array
