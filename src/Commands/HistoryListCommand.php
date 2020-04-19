@@ -38,21 +38,7 @@ class HistoryListCommand extends Command
             $data = $this->commandHistory->showDBHistory($commands);
 
             if(!empty($data)) {
-                $tableContent = [];
-                $i = 0;
-                foreach ($data as $key => $row) {
-                    $i++;
-                    $tableContent[] = [
-                        'no' => $i,
-                        'command' => ucfirst($row['history_command']),
-                        'history_description' => $row['history_description'],
-                        'Result' => $row['result'],
-                        'Output' => $row['output'],
-                        'Time' => $row['history_time']
-                    ];
-                }
-                $headers = ['No', 'Command', 'Description', 'Result', 'Output', 'Time'];
-                $this->table($headers, $tableContent);
+                $this->createTable($data);
             }else{
                 $this->comment('History is empty.');
             }
@@ -60,21 +46,7 @@ class HistoryListCommand extends Command
             $data = $this->commandHistory->showFileHistory($commands);
 
             if(!$data->isEmpty()) {
-                $tableContent = [];
-                $i = 0;
-                foreach ($data as $key => $row) {
-                    $i++;
-                    $tableContent[] = [
-                        'no' => $i,
-                        'command' => ucfirst($row['history_command']),
-                        'history_description' => $row['history_description'],
-                        'Result' => $row['result'],
-                        'Output' => $row['output'],
-                        'Time' => $row['history_time']
-                    ];
-                }
-                $headers = ['No', 'Command', 'Description', 'Result', 'Output', 'Time'];
-                $this->table($headers, $tableContent);
+                $this->createTable($data);
             }else{
                 $this->comment('History is empty.');
             }
@@ -85,5 +57,27 @@ class HistoryListCommand extends Command
     protected function getCommand(): array
     {
         return $this->argument('commands') ?? array();
+    }
+
+    /**
+     * @param array|collection $data
+     */
+    private function createTable($data)
+    {
+        $tableContent = [];
+        $i = 0;
+        foreach ($data as $key => $row) {
+            $i++;
+            $tableContent[] = [
+                'no' => $i,
+                'command' => ucfirst($row['history_command']),
+                'history_description' => $row['history_description'],
+                'Result' => $row['result'],
+                'Output' => $row['output'],
+                'Time' => $row['history_time']
+            ];
+        }
+        $headers = ['No', 'Command', 'Description', 'Result', 'Output', 'Time'];
+        $this->table($headers, $tableContent);
     }
 }
