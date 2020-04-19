@@ -85,9 +85,40 @@ class CommandHistory implements CommandHistoryManagerInterface
         return $history;
     }
 
-    public function showFileHistory()
+    /**
+     * if need select all data just fill param with null or with empty array like this []
+     * if need filter with some keyword fill that param with array ex. ['find_one', 'find_two']
+     * @param array|null $filterArray
+     * @return array
+     */
+
+    public function showFileHistory(array $filterArray = null)
     {
-        // TODO: Implement showFileHistory() method.
+        $data = file_get_contents($this->getStorageFile());
+        
+        $data = str_replace(array("\n", "\r"), '', $data);
+        $data = explode('#', $data);
+        unset($data[count($data) - 1]); // delete/clear the last empty element
+
+        $final_array = array();
+        foreach($data as $key => $row){ // loop exploded data
+            $exploded_item = explode('; ', $row);
+            
+            $final_array[] = [
+                'history_command' => $exploded_item[0],
+                'history_description' => $exploded_item[1],
+                'result' => $exploded_item[2],
+                'output' => $exploded_item[3],
+                'history_time' => $exploded_item[4],
+            ];
+        }
+        $item_collection = collect($final_array);
+
+        if($filterArray != null){
+            $item_collection = $item_collection->whereIn('history_command', $filterArray);
+        } 
+
+        return $item_collection;
     }
 
     private function createTable(): void
@@ -114,7 +145,8 @@ class CommandHistory implements CommandHistoryManagerInterface
      * @param string $output
      * @return string Last Table command_history id
      */
-    private function saveHistoryToDB($history_command, $history_description, $result, $output) {
+    private function saveHistoryToDB($history_command, $history_description, $result, $output) 
+    {
         $sql = 'INSERT INTO command_history(history_command,history_description,result,output,history_time)'
             .'VALUES(:history_command,:history_description,:result,:output,:history_time)';
         $qryPdq = $this->pdo->prepare($sql);
@@ -127,8 +159,10 @@ class CommandHistory implements CommandHistoryManagerInterface
         return $this->pdo->lastInsertId();
     }
 
-    private function saveHistoryToFile($history_command, $history_description, $result, $output) {
-        // TODO: Yet
+    private function saveHistoryToFile($history_command, $history_description, $result, $output) 
+    {
+        $dataToWrite = $history_command.'; '.$history_description.'; '.$result.'; '.$output.'; '.date('Y-m-d H:i:s')."#";
+        file_put_contents($this->getStorageFile(), $dataToWrite, FILE_APPEND | LOCK_EX);
     }
 
     /**
