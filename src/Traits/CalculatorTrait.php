@@ -3,6 +3,13 @@ namespace Jakmall\Recruitment\Calculator\Traits;
 
 trait CalculatorTrait
 {
+    /**
+     * @param array $numbers
+     * @param string $operator
+     * 
+     * @return string
+     */
+
     public function generateCalculationDescription(array $numbers, string $operator): string
     {
         $glue = sprintf(' %s ',$operator);
@@ -12,7 +19,8 @@ trait CalculatorTrait
 
     /**
      * @param array $numbers
-     *
+     * @param string $operator
+     * 
      * @return float|int
      */
     public function calculateAll(array $numbers, string $operator)
@@ -29,6 +37,7 @@ trait CalculatorTrait
     /**
      * @param int|float $number1
      * @param int|float $number2
+     * @param string $operator
      *
      * @return int|float
      */
