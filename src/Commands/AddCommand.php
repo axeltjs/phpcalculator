@@ -42,7 +42,7 @@ class AddCommand extends Command
         $this->commandHistory = new CommandHistory();
         
         if (!empty($this->commandHistory)) {
-            $this->commandHistory->saveHistory(ucfirst($this->getName()), $description, $result, sprintf('%s = %s', $description, $result));
+            $this->commandHistory->saveHistory($this->getName(), $description, $result, sprintf('%s = %s', $description, $result));
         }
        
     }
