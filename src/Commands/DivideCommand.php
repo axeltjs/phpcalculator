@@ -12,7 +12,7 @@ class DivideCommand extends Command
     /**
      * @var string
      */
-    protected $signature = "divide {numbers* : The numbers to be %s}";
+    protected $signature = "divide {numbers* : The numbers to be divide}";
 
     /**
      * @var string
