@@ -67,7 +67,7 @@ class CommandHistory implements CommandHistoryManagerInterface
     public function showDBHistory(array $filterArray = null) : array
     {
         $query = 'SELECT history_id, history_command, history_description, result, output, history_time FROM command_history';
-        $extraQuery = ($filterArray !== null ?  " WHERE history_command IN ('" . implode("','", $filterArray) . "')" : '');
+        $extraQuery = ($filterArray != null ?  " WHERE history_command IN ('" . implode("','", $filterArray) . "')" : '');
         $pdoQry = $this->pdo
             ->query($query . $extraQuery);
         $history = [];
@@ -142,6 +142,20 @@ class CommandHistory implements CommandHistoryManagerInterface
     {
         $this->saveHistoryToDB($history_command, $history_description, $result, $output);
         $this->saveHistoryToFile($history_command, $history_description, $result, $output);
+    }
+
+    /**
+     * @return void
+     */
+    public function clearHistory()
+    {
+        if(file_exists($this->storageSqliteDbFile)){
+            unlink($this->storageSqliteDbFile);
+        }
+
+        if(file_exists($this->storageFile)){
+            unlink($this->storageFile);
+        }
     }
 }  
   
