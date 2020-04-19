@@ -3,6 +3,8 @@
 namespace Jakmall\Recruitment\Calculator\Commands;
 
 use Illuminate\Console\Command;
+use Jakmall\Recruitment\Calculator\Interfaces\CommandHistory;
+use Symfony\Component\Console\Helper\Table;
 
 class AddCommand extends Command
 {
@@ -18,6 +20,11 @@ class AddCommand extends Command
      */
     protected $description = "Add all given Numbers";
 
+    /**
+     * @var object
+     */
+    protected $commandHistory;
+
     public function __construct()
     {
         parent::__construct();
@@ -31,6 +38,13 @@ class AddCommand extends Command
         $result = $this->calculateAll($numbers, $operator);
 
         $this->comment(sprintf('%s = %s', $description, $result));
+
+        $this->commandHistory = new CommandHistory();
+        
+        if (!empty($this->commandHistory)) {
+            $this->commandHistory->saveHistory($this->getName(), $description, $result, sprintf('%s = %s', $description, $result));
+        }
+       
     }
 
     protected function getOperator(): String 

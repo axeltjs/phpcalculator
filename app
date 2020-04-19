@@ -12,7 +12,7 @@ try {
 
     $container = new Container();
     $dispatcher = new Dispatcher();
-    $app = new Application($container, $dispatcher, '0.1');
+    $app = new Application($container, $dispatcher, '0.6');
     $app->setName('Calculator');
 
     $commands = require_once __DIR__.'/commands.php';
@@ -29,4 +29,5 @@ try {
 
     $app->run(new ArgvInput(), new ConsoleOutput());
 } catch (Throwable $e) {
+    echo $e;
 }

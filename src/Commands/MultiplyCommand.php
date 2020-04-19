@@ -3,6 +3,7 @@
 namespace Jakmall\Recruitment\Calculator\Commands;
 
 use Illuminate\Console\Command;
+use Jakmall\Recruitment\Calculator\Interfaces\CommandHistory;
 
 class MultiplyCommand extends Command
 {
@@ -18,6 +19,11 @@ class MultiplyCommand extends Command
      */
     protected $description = "Multiply all given Numbers";
 
+    /**
+     * @var object
+     */
+    protected $commandHistory;
+
     public function __construct()
     {
         parent::__construct();
@@ -31,6 +37,12 @@ class MultiplyCommand extends Command
         $result = $this->calculateAll($numbers, $operator);
 
         $this->comment(sprintf('%s = %s', $description, $result));
+
+        $this->commandHistory = new CommandHistory();
+        
+        if (!empty($this->commandHistory)) {
+            $this->commandHistory->saveHistory($this->getName(), $description, $result, sprintf('%s = %s', $description, $result));
+        }
     }
 
     protected function getOperator(): String 

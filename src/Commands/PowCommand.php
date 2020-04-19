@@ -5,19 +5,19 @@ namespace Jakmall\Recruitment\Calculator\Commands;
 use Illuminate\Console\Command;
 use Jakmall\Recruitment\Calculator\Interfaces\CommandHistory;
 
-class DivideCommand extends Command
+class PowCommand extends Command
 {
     use \Jakmall\Recruitment\Calculator\Traits\CalculatorTrait;
     
     /**
      * @var string
      */
-    protected $signature = "divide {numbers* : The numbers to be divide}";
+    protected $signature = "pow {base : The base number}, {exp : The exponent number}";
 
     /**
      * @var string
      */
-    protected $description = "Divide all given Numbers";
+    protected $description = "Exponent the given Numbers";
 
     /**
      * @var object
@@ -37,9 +37,9 @@ class DivideCommand extends Command
         $result = $this->calculateAll($numbers, $operator);
 
         $this->comment(sprintf('%s = %s', $description, $result));
-
-        $this->commandHistory = new CommandHistory();
         
+        $this->commandHistory = new CommandHistory();
+
         if (!empty($this->commandHistory)) {
             $this->commandHistory->saveHistory($this->getName(), $description, $result, sprintf('%s = %s', $description, $result));
         }
@@ -47,11 +47,15 @@ class DivideCommand extends Command
 
     protected function getOperator(): String 
     {
-        return '/';
+        return '^';
     }
 
     protected function getInput(): array
     {
-        return $this->argument('numbers');
+        $base = $this->argument('base');
+        $exp = $this->argument('exp');
+        $exponentArray = [$base, $exp];
+        
+        return $exponentArray;
     }
 }
